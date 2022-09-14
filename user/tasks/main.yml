@@ -1,5 +1,5 @@
 ---
-- name: Add group | create primary group before adding user to group
+- name: Add group panda
   group:
     name: panda
     gid: "{{ item.primarygid | default(omit) }}"
