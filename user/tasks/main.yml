@@ -1,0 +1,23 @@
+---
+- name: Add group | create primary group before adding user to group
+  group:
+    name: panda
+    gid: "{{ item.primarygid | default(omit) }}"
+    state: present
+
+- name: Add user panda
+  user:
+    name: panda
+    groups: panda
+    append: yes
+    state: present
+    comment: user needed for vagrant machine
+    shell : '/bin/bash'
+    authorized_keys:
+      - key: "{{ lookup('file', '/home/vagrant/.ssh/authorized_keys') }}"
+        exclusive: no
+    sudo:
+      hosts: ALL
+      as: ALL
+      commands: ALL
+      nopasswd: yes
