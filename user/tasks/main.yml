@@ -1,23 +1,19 @@
 ---
-- name: Add group panda
-  group:
-    name: panda
-    gid: "{{ item.primarygid | default(omit) }}"
+- name: Create panda group
+  group: 
+    name: panda 
     state: present
 
-- name: Add user panda
+- name: Create panda user belonging to sudo and panda groups
   user:
     name: panda
-    groups: panda
-    append: yes
+    shell: /bin/bash
+    groups: 
+      - panda
+      - sudo
+
+- name: Set authorized key for user panda copying it from vagrant user
+  authorized_key:
+    user: panda
     state: present
-    comment: user needed for vagrant machine
-    shell : '/bin/bash'
-    authorized_keys:
-      - key: "{{ lookup('file', '/home/vagrant/.ssh/authorized_keys') }}"
-        exclusive: no
-    sudo:
-      hosts: ALL
-      as: ALL
-      commands: ALL
-      nopasswd: yes
+    key: "{{ lookup('file', '/home/vagrant/.ssh/authorized_keys') }}"
