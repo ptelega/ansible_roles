@@ -1,2 +1,3 @@
----
-# defaults file for packages
+deployment_path: "~/Infrastructure"
+git_repository: "https://github.com/ptelega/Infrastructure"
+git_branch: "main"

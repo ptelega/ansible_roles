@@ -1,0 +1,17 @@
+- name: Install docker-compose and docker using PIP
+  pip:
+    name: 
+    - docker
+    - docker-compose
+
+- name: Clone git repo
+  git:
+    repo: "{{ git_repository }}"
+    dest: "{{ deployment_path }}"
+    version: "{{ git_branch }}"
+
+- name: Run `docker-compose up` using ansible module
+  docker_compose:
+    project_src: "{{ deployment_path }}"
+    build: yes
+    debug: yes
